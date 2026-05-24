@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 680" width="512" height="512">
+  <rect x="90" y="90" width="500" height="500" rx="110" fill="#0f172a"/>
+
+  <!-- Arco fondo -->
+  <path d="M 200 470 A 140 140 0 1 1 480 470" fill="none" stroke="#1e293b" stroke-width="28" stroke-linecap="round"/>
+
+  <!-- Arco activo azul agua -->
+  <path d="M 200 470 A 140 140 0 1 1 412 338" fill="none" stroke="#0ea5e9" stroke-width="28" stroke-linecap="round"/>
+
+  <!-- Marcas de escala -->
+  <g stroke="#334155" stroke-width="4" stroke-linecap="round">
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(-90 340 470)"/>
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(-60 340 470)"/>
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(-30 340 470)"/>
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(0 340 470)"/>
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(30 340 470)"/>
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(60 340 470)"/>
+    <line x1="200" y1="470" x2="216" y2="452" transform="rotate(90 340 470)"/>
+  </g>
+
+  <!-- Aguja -->
+  <line x1="340" y1="340" x2="412" y2="338" stroke="#f8fafc" stroke-width="10" stroke-linecap="round"/>
+  <!-- Cola -->
+  <line x1="340" y1="340" x2="288" y2="343" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Centro -->
+  <circle cx="340" cy="340" r="18" fill="#0ea5e9"/>
+  <circle cx="340" cy="340" r="9" fill="#0f172a"/>
+
+  <!-- Letras MM -->
+  <text x="340" y="515"
+        font-family="'Bebas Neue', 'Arial Black', sans-serif"
+        font-size="48" font-weight="700" fill="#0ea5e9"
+        text-anchor="middle" letter-spacing="6">MM</text>
+
+  <circle cx="340" cy="545" r="5" fill="#0ea5e9" opacity="0.5"/>
+</svg>
