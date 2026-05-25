@@ -381,13 +381,68 @@ input, select, textarea { font-family: inherit; }
   padding: 10px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0;
 }
 .dash-selector-label { font-size: .62rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 5px; }
-#dash-select {
-  width: 100%; padding: 7px 10px; border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm); font-size: .8rem; color: var(--text);
-  background: var(--surface); appearance: none; cursor: pointer;
-  transition: border-color .15s; font-family: inherit;
+
+/* Selector custom */
+.cs-btn {
+  width: 100%; padding: 8px 12px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--accent); background: var(--surface);
+  display: flex; align-items: center; gap: 9px; cursor: pointer;
+  font-size: .82rem; color: var(--text); font-family: inherit; transition: border-color .15s;
 }
-#dash-select:focus { outline: none; border-color: var(--accent); }
+.cs-btn:hover { border-color: var(--accent-dk); }
+.cs-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.cs-text { flex: 1; text-align: left; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cs-arrow { font-size: .7rem; color: var(--accent); transition: transform .2s; flex-shrink: 0; }
+.cs-btn.open .cs-arrow { transform: rotate(180deg); }
+
+/* Dropdown desktop */
+.cs-dropdown-wrap { position: relative; }
+.cs-dropdown {
+  position: absolute; top: calc(100% + 5px); left: 0; right: 0; z-index: 200;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: var(--shadow-md); display: none; overflow: hidden;
+}
+.cs-dropdown.open { display: block; }
+.cs-option {
+  display: flex; align-items: center; gap: 9px; padding: 9px 12px;
+  cursor: pointer; font-size: .8rem; color: var(--text);
+  border-bottom: .5px solid var(--border); transition: background .12s;
+}
+.cs-option:last-child { border-bottom: none; }
+.cs-option:hover { background: var(--bg); }
+.cs-option.selected { background: var(--accent-lt); color: var(--accent-dk); font-weight: 500; }
+.cs-option .co-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.cs-option.selected .co-dot { background: var(--accent); }
+.cs-option .co-check { margin-left: auto; font-size: .75rem; color: var(--accent); display: none; }
+.cs-option.selected .co-check { display: block; }
+
+/* Bottom sheet mobile */
+.bs-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.4); z-index: 500; align-items: flex-end;
+  backdrop-filter: blur(2px);
+}
+.bs-backdrop.visible { display: flex; }
+.bs-panel {
+  background: var(--surface); width: 100%; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding-bottom: 16px; transform: translateY(100%);
+  transition: transform .28s cubic-bezier(.4,0,.2,1); max-height: 70vh; overflow-y: auto;
+}
+.bs-backdrop.visible .bs-panel { transform: translateY(0); }
+.bs-handle { width: 36px; height: 4px; background: var(--border); border-radius: 99px; margin: 10px auto 12px; }
+.bs-title { font-size: .62rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 0 16px 8px; }
+.bs-option {
+  display: flex; align-items: center; gap: 12px; padding: 13px 16px;
+  cursor: pointer; font-size: .85rem; color: var(--text);
+  border-top: .5px solid var(--border); transition: background .12s;
+}
+.bs-option:hover { background: var(--bg); }
+.bs-option.selected { color: var(--accent-dk); font-weight: 500; }
+.bs-option .bo-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+.bs-option.selected .bo-dot { background: var(--accent); }
+.bs-option .bo-label { flex: 1; }
+.bs-option .bo-check { font-size: .8rem; color: var(--accent); opacity: 0; }
+.bs-option.selected .bo-check { opacity: 1; }
 
 .dash-body { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
 
@@ -600,7 +655,7 @@ input, select, textarea { font-family: inherit; }
   <div class="login-box">
     <span class="login-icon">🔧</span>
     <div class="login-logo">MI MEDICIÓN</div>
-    <div class="login-sub">v1.0 · Control de recambios y consumos</div>
+    <div class="login-sub">v1.1 · Control de recambios y consumos</div>
     <div class="login-title">Accedé con tu cuenta Google</div>
     <div class="login-desc">Solo cuentas autorizadas pueden acceder.</div>
     <div id="g-btn-wrap"></div>
@@ -636,7 +691,7 @@ input, select, textarea { font-family: inherit; }
       <circle cx="20" cy="20" r="2.5" fill="#0ea5e9"/>
     </svg>
     <span class="hdr-logo">MI MEDICIÓN</span>
-    <span class="hdr-version">v1.0</span>
+    <span class="hdr-version">v1.1</span>
     <span class="hdr-sep"></span>
     <span class="hdr-name" id="hdr-nombre"></span>
     <button class="hdr-btn accent" id="btn-instalar-pwa" style="display:none" onclick="instalarPWA()">
@@ -675,9 +730,22 @@ input, select, textarea { font-family: inherit; }
       </div>
       <div class="dash-selector-wrap">
         <div class="dash-selector-label">Elemento</div>
-        <select id="dash-select" onchange="cargarDashboard()">
-          <option value="">— seleccioná un elemento —</option>
-        </select>
+        <div class="cs-dropdown-wrap" id="cs-wrap">
+          <button class="cs-btn" id="cs-btn" onclick="toggleSelectorDash()">
+            <span class="cs-dot"></span>
+            <span class="cs-text" id="cs-text">— seleccioná un elemento —</span>
+            <span class="cs-arrow">▼</span>
+          </button>
+          <div class="cs-dropdown" id="cs-dropdown"></div>
+        </div>
+      </div>
+      <!-- Bottom sheet mobile -->
+      <div class="bs-backdrop" id="bs-backdrop" onclick="onBsBackdropClick(event)">
+        <div class="bs-panel" id="bs-panel">
+          <div class="bs-handle"></div>
+          <div class="bs-title">Seleccioná un elemento</div>
+          <div id="bs-options"></div>
+        </div>
       </div>
       <div class="dash-body" id="dash-body">
         <div class="dash-empty">Seleccioná un elemento para ver su dashboard.</div>
@@ -751,7 +819,7 @@ input, select, textarea { font-family: inherit; }
 <!-- ══════════════════════════════════════════════
      FORMULARIO REGISTRO
 ══════════════════════════════════════════════ -->
-<div id="form-overlay" onclick="onFormOverlayClick(event)">
+<div id="form-overlay">
   <div id="form-panel">
     <div class="form-handle"></div>
     <div class="form-header">
@@ -853,7 +921,7 @@ input, select, textarea { font-family: inherit; }
 </div>
 
 <!-- FAB -->
-<button id="fab" onclick="abrirFormulario('nuevo')" title="Nuevo registro">+</button>
+<button id="fab" onclick="abrirFormulario('nuevo')" title="Nuevo registro" style="display:none">+</button>
 
 <!-- Toast -->
 <div id="toast"></div>
@@ -867,7 +935,7 @@ input, select, textarea { font-family: inherit; }
 /* ── Configuración ───────────────────────────────────────── */
 const GAS_URL    = 'https://script.google.com/macros/s/AKfycbzRcQECvOb9-BkJTXhsW8MGhd3ltliDDJIrQ6Bt7KtTmJII8AeR6xt6Ygy7nMZgJM_E3g/exec';  // ← pegá la URL del deployment GAS
 const CLIENT_ID  = '985022387906-5h3qtmq6jifdl5jdv77o4amf9nb3mcdn.apps.googleusercontent.com'; // ← OAuth Client ID de GCP
-const VERSION_UI = 'v1.0';
+const VERSION_UI = 'v1.1';
 
 /* ── Estado global ───────────────────────────────────────── */
 const estado = {
@@ -1028,6 +1096,9 @@ function mostrarApp(usuario) {
   document.getElementById('hdr-nombre').textContent = usuario.name || usuario.email;
   const av = document.getElementById('hdr-avatar');
   if (usuario.picture) { av.src = usuario.picture; av.style.display = ''; }
+  // FAB oculto hasta que terminen de cargar los datos
+  const fab = document.getElementById('fab');
+  if (fab) fab.style.display = 'none';
   iniciarTabsMobile();
   cargarDatos(false);
   iniciarKeepAlive();
@@ -1062,6 +1133,9 @@ async function cargarDatos(forzar = false) {
     renderListaElementos();
     renderListaABM();
     poblarSelectores();
+    // Mostrar FAB recién cuando los datos están listos
+    const fab = document.getElementById('fab');
+    if (fab) fab.style.display = 'flex';
   } catch (err) {
     mostrarToast('⚠ Error al cargar datos.');
     console.error(err);
@@ -1300,36 +1374,106 @@ function generarGraficoSVG(registros, elem) {
    DASHBOARD
 ══════════════════════════════════════════════ */
 function poblarSelectores() {
-  // Selector dashboard — solo elementos con FlagDashboard
-  const sel = document.getElementById('dash-select');
-  const valActual = sel.value;
-  sel.innerHTML = '<option value="">— seleccioná un elemento —</option>';
+  // ── Selector dashboard custom ──────────────────────
+  const elemsDash = estado.elementos
+    .filter(e => e.FlagDashboard)
+    .sort((a, b) => (Number(a.Orden) || 999) - (Number(b.Orden) || 999));
 
-  // Selector formulario — todos activos
-  const fSel = document.getElementById('f-elemento');
-  const fVal = fSel.value;
-  fSel.innerHTML = '<option value="">— seleccioná —</option>';
+  const dropdown  = document.getElementById('cs-dropdown');
+  const bsOptions = document.getElementById('bs-options');
+  if (!dropdown || !bsOptions) return;
 
-  estado.elementos.forEach(e => {
-    if (e.FlagDashboard) {
-      const opt = document.createElement('option');
-      opt.value = e.ID; opt.textContent = e.Nombre;
-      sel.appendChild(opt);
-    }
-    const opt2 = document.createElement('option');
-    opt2.value = e.ID; opt2.textContent = e.Nombre;
-    fSel.appendChild(opt2);
+  dropdown.innerHTML  = '';
+  bsOptions.innerHTML = '';
+
+  // Elemento por defecto: el de menor Orden (o primero)
+  const porDefecto = estado._dashElemID ||
+    (elemsDash.length > 0 ? elemsDash[0].ID : null);
+
+  elemsDash.forEach(e => {
+    const sel = e.ID === porDefecto;
+    // Opción dropdown desktop
+    const opt = document.createElement('div');
+    opt.className = 'cs-option' + (sel ? ' selected' : '');
+    opt.dataset.id = e.ID;
+    opt.innerHTML = `<span class="co-dot"></span>${e.Nombre}<span class="co-check">✓</span>`;
+    opt.onclick = () => seleccionarElemDash(e.ID, e.Nombre);
+    dropdown.appendChild(opt);
+    // Opción bottom sheet mobile
+    const bso = document.createElement('div');
+    bso.className = 'bs-option' + (sel ? ' selected' : '');
+    bso.dataset.id = e.ID;
+    bso.innerHTML = `<span class="bo-dot"></span><span class="bo-label">${e.Nombre}</span><span class="bo-check">✓</span>`;
+    bso.onclick = () => seleccionarElemDash(e.ID, e.Nombre);
+    bsOptions.appendChild(bso);
   });
 
-  // Restaurar selección previa
-  if (valActual) sel.value = valActual;
-  if (fVal) fSel.value = fVal;
+  if (porDefecto && elemsDash.length > 0) {
+    const nombre = elemsDash.find(e => e.ID === porDefecto)?.Nombre || '';
+    document.getElementById('cs-text').textContent = nombre || '— seleccioná —';
+    estado._dashElemID = porDefecto;
+  }
+
+  // ── Selector formulario — todos activos ────────────
+  const fSel = document.getElementById('f-elemento');
+  const fVal = fSel ? fSel.value : '';
+  if (fSel) {
+    fSel.innerHTML = '<option value="">— seleccioná —</option>';
+    estado.elementos.forEach(e => {
+      const opt2 = document.createElement('option');
+      opt2.value = e.ID; opt2.textContent = e.Nombre;
+      fSel.appendChild(opt2);
+    });
+    if (fVal) fSel.value = fVal;
+  }
+
+  // Auto-cargar dashboard con el elemento por defecto
+  if (porDefecto) cargarDashboard(porDefecto);
 }
 
-async function cargarDashboard() {
-  const sel   = document.getElementById('dash-select');
-  const elemID = sel.value;
-  const body  = document.getElementById('dash-body');
+function seleccionarElemDash(id, nombre) {
+  estado._dashElemID = id;
+  // Actualizar visual dropdown
+  document.querySelectorAll('.cs-option').forEach(o =>
+    o.classList.toggle('selected', o.dataset.id === id));
+  document.querySelectorAll('.bs-option').forEach(o =>
+    o.classList.toggle('selected', o.dataset.id === id));
+  document.getElementById('cs-text').textContent = nombre;
+  // Cerrar ambos
+  document.getElementById('cs-btn')?.classList.remove('open');
+  document.getElementById('cs-dropdown')?.classList.remove('open');
+  document.getElementById('bs-backdrop')?.classList.remove('visible');
+  cargarDashboard(id);
+}
+
+function toggleSelectorDash() {
+  if (esMobile()) {
+    document.getElementById('bs-backdrop').classList.add('visible');
+  } else {
+    const btn = document.getElementById('cs-btn');
+    const dd  = document.getElementById('cs-dropdown');
+    btn.classList.toggle('open');
+    dd.classList.toggle('open');
+  }
+}
+
+function onBsBackdropClick(e) {
+  if (e.target === document.getElementById('bs-backdrop'))
+    document.getElementById('bs-backdrop').classList.remove('visible');
+}
+
+// Cerrar dropdown al click fuera
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('cs-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('cs-btn')?.classList.remove('open');
+    document.getElementById('cs-dropdown')?.classList.remove('open');
+  }
+});
+
+async function cargarDashboard(elemID) {
+  if (!elemID) elemID = estado._dashElemID;
+  const body = document.getElementById('dash-body');
 
   if (!elemID) {
     body.innerHTML = '<div class="dash-empty">Seleccioná un elemento para ver su dashboard.</div>';
@@ -1593,10 +1737,6 @@ function cerrarFormulario() {
   estado.editandoID = null;
 }
 
-function onFormOverlayClick(e) {
-  if (e.target === document.getElementById('form-overlay')) cerrarFormulario();
-}
-
 function onElementoChange() {
   const sel    = document.getElementById('f-elemento');
   const elemID = sel.value;
@@ -1718,7 +1858,7 @@ function cambiarTab(tab) {
 
 function iniciarTabsMobile() {
   if (!esMobile()) return;
-  cambiarTab('registros');
+  cambiarTab('dashboard');
 }
 
 window.addEventListener('resize', () => {
@@ -1734,7 +1874,7 @@ window.addEventListener('resize', () => {
       const p = document.getElementById(id);
       return p && p.classList.contains('tab-active');
     });
-    if (!hayActivo) cambiarTab('registros');
+    if (!hayActivo) cambiarTab('dashboard');
   }
 });
 
