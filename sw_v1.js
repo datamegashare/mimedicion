@@ -2,7 +2,7 @@
 //  Mi Medición — sw_v1.js
 //  Service Worker PWA
 //  Versión  : v1.0
-//  Cache key: mimedicion-v1.0
+//  Cache key: mimedicion-v1.1
 // ============================================================
 //  Historial de versiones
 //  v1.0  2026-05-24  Versión inicial.
@@ -11,7 +11,7 @@
 //                    Fallback offline para navegación.
 // ============================================================
 
-const CACHE_NAME    = 'mimedicion-v1.0';
+const CACHE_NAME    = 'mimedicion-v1.1';
 const GAS_HOSTNAME  = 'script.google.com';
 
 // Assets que se cachean en la instalación
