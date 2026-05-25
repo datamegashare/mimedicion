@@ -16,7 +16,7 @@ const GAS_HOSTNAME  = 'script.google.com';
 
 // Assets que se cachean en la instalación
 const PRECACHE_URLS = [
-  './index_v1.html',
+  './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
@@ -92,7 +92,7 @@ self.addEventListener('fetch', event => {
     }).catch(() => {
       // Fallback offline: devolver index para navegación
       if (event.request.mode === 'navigate') {
-        return caches.match('./index_v1.html');
+        return caches.match('./index.html');
       }
     })
   );
