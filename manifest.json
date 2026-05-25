@@ -2,7 +2,7 @@
   "name": "Mi Medición",
   "short_name": "MiMedición",
   "description": "Registrá recambios y consumos. Conocé duración, precio y rendimiento de tus elementos.",
-  "start_url": "./index_v1.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
